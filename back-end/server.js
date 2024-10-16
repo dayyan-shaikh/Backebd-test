@@ -11,12 +11,12 @@ app.use(express.json());
 // Registration route
 app.post("/register", async (req, res) => {
     try {
-        const { username,email, password } = req.body;
+        const { username,email, message } = req.body;
         console.log(req.body);
 
-        if(!username || !email || !password) return res.status(400).json({message:"All fields are required",success:false})
+        if(!username || !email || !message) return res.status(400).json({message:"All fields are required",success:false})
         // Instantiate a new user object
-        const newUser = new User({ username,email, password });
+        const newUser = new User({ username,email, message });
         sendMail(email,"Welcome to our E-commerce Website",`Hi, ${username} Thank you for contacting us.`)
         await newUser.save();
         
