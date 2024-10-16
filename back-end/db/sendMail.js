@@ -13,12 +13,14 @@ const transporter = nodemailer.createTransport({
 async function sendMail(to,subject,text,html) {
   // send mail with defined transport object
   const info = await transporter.sendMail({
-    from: 'dayyan.shaikh973@gmail.com', // sender address
+    from: 'talk2comp@gmail.com', // sender address
     to, // list of receivers
     subject, // Subject line
     text, // plain text body
     html // html body
   });
+
+  
 }
 
 module.exports = {sendMail}
