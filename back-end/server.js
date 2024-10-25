@@ -3,7 +3,7 @@ const app = express();
 const port = 8000;
 const connectDB = require("./db/dbconnection.js");
 const User = require("./db/user.js");
-const { sendMail } = require("./db/sendMail.js");
+// const { sendMail } = require("./db/sendMail.js");
 
 // Middleware for parsing JSON
 app.use(express.json());
@@ -11,13 +11,13 @@ app.use(express.json());
 // Registration route
 app.post("/register", async (req, res) => {
     try {
-        const { username,email, message } = req.body;
+        const { username,email, password } = req.body;
         console.log(req.body);
 
-        if(!username || !email || !message) return res.status(400).json({message:"All fields are required",success:false})
+        if(!username || !email || !password) return res.status(400).json({message:"All fields are required",success:false})
         // Instantiate a new user object
-        const newUser = new User({ username,email, message });
-        sendMail(email,"Welcome to our E-commerce Website",`Hi, ${username} Thank you for contacting us.`)
+        const newUser = new User({ username,email, password });
+        // sendMail(email,"Welcome to our E-commerce Website",`Hi, ${username} Thank you for contacting us.`)
         await newUser.save();
         
         res.status(201).json({ message: "Registration Successful" });

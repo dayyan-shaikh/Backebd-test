@@ -9,7 +9,7 @@ const Userschema = new mongoose.Schema({
         type:String,
         require:true,
     },
-    message:{
+    password:{
         type:String,
         require:true
     }
