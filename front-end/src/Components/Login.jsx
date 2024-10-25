@@ -81,6 +81,9 @@ const Login = () => {
                       Forgot password?
                     </a>
                   </div>
+                  <button className="tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  <Link to={"/"} className="ml-3">Login</Link>
+                </button>
                   <button
                     type="submit"
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -90,7 +93,7 @@ const Login = () => {
                   <p className="text-sm font-light text-gray dark:text-gray text-center">
                     Don’t have an account yet?{" "}
                     <Link
-                      to="/"
+                      to="/signup"
                       className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                     >
                       Sign up
