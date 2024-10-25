@@ -58,7 +58,7 @@ const Signup = () => {
                     <circle cx="8.5" cy="7" r="4" />
                     <path d="M20 8v6M23 11h-6" />
                   </svg>
-                  <span className="ml-3">Sign Up</span>
+                  <Link to={"/login"} className="ml-3">Sign Up</Link>
                 </button>
                 <p className="mt-6 text-xs text-gray-600 text-center">
                   Already have an account?<Link to={"/login"} className="text-blue-700">Signin</Link>
