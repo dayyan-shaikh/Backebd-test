@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [input, setInput] = useState({
-    username: '',
-    email: '',
-    password: '',
+    username: "",
+    email: "",
+    password: "",
   });
-  
+
   const navigate = useNavigate();
 
   const changehandler = (e) => {
-    const { name, value } = e.target;  // Destructure name and value
+    const { name, value } = e.target;
     setInput((prevInput) => ({
       ...prevInput,
-      [name]: value,  // Use name to update the correct field
+      [name]: value,
     }));
   };
 
@@ -29,13 +29,14 @@ const Signup = () => {
         },
         withCredentials: true,
       });
-      if (res.data.success) {
-        navigate("/login");
-        toast.success(res.data.message);
-      }
+      // Navigate to login page after successful signup
+      toast.success("Registration successful! Please log in.");
+      navigate("/"); 
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Signup failed. Please try again."
+      );
     }
   };
 
@@ -64,7 +65,7 @@ const Signup = () => {
               <div className="mx-auto max-w-xs flex flex-col gap-4">
                 <input
                   onChange={changehandler}
-                  name="username"  // Add this
+                  name="username"
                   value={input.username}
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="text"
@@ -72,7 +73,7 @@ const Signup = () => {
                 />
                 <input
                   onChange={changehandler}
-                  name="email"  // Add this
+                  name="email"
                   value={input.email}
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="email"
@@ -80,16 +81,19 @@ const Signup = () => {
                 />
                 <input
                   onChange={changehandler}
-                  name="password"  // Add this
+                  name="password"
                   value={input.password}
                   className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                   type="password"
                   placeholder="Password"
                 />
-                <button type="submit" className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                <button
+                  type="submit"
+                  className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                >
                   Sign Up
                 </button>
-                <p className="mt-6 text-xs text-gray-600 text-center">
+                <p className="mt-6 text-sm text-gray-600 text-center">
                   Already have an account?
                   <Link to={"/"} className="text-blue-700">
                     Sign in

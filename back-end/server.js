@@ -3,10 +3,17 @@ const app = express();
 const port = 8000;
 const connectDB = require("./db/dbconnection.js");
 const User = require("./db/user.js");
+const cors = require('cors');
 // const { sendMail } = require("./db/sendMail.js");
 
 // Middleware for parsing JSON
 app.use(express.json());
+
+//Enable cors
+app.use(cors({
+    origin: 'http://localhost:5173', // Specify your React app's URL here
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+}));
 
 // Registration route
 app.post("/register", async (req, res) => {

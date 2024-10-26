@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-5">
+    <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
       <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
         {/* <!-- Left: Image --> */}
         <div className="w-full lg:w-1/2 hidden lg:flex items-center justify-center">
