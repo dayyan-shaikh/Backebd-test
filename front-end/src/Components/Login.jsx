@@ -3,6 +3,8 @@ import { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from 'react-hot-toast'
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 
 const Login = () => {
   const [input, setinput] = useState({
@@ -10,8 +12,14 @@ const Login = () => {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const changehandler = (e) => {
     setinput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,16 +96,23 @@ const Login = () => {
                     >
                       Password
                     </label>
-                    <input
-                      onChange={changehandler}
-                      value={input.password}
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="password"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required=""
-                    />
+                    <div className="relative">
+                  <input
+                    onChange={changehandler}
+                    name="password"
+                    value={input.password}
+                    className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-start">

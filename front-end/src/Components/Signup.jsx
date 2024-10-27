@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -9,6 +10,8 @@ const Signup = () => {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -18,6 +21,10 @@ const Signup = () => {
       ...prevInput,
       [name]: value,
     }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
   const submithandler = async (e) => {
@@ -80,14 +87,23 @@ const Signup = () => {
                   type="email"
                   placeholder="Enter your email"
                 />
-                <input
-                  onChange={changehandler}
-                  name="password"
-                  value={input.password}
-                  className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                  type="password"
-                  placeholder="Password"
-                />
+                <div className="relative">
+                  <input
+                    onChange={changehandler}
+                    name="password"
+                    value={input.password}
+                    className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                  />
+                  <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
                 <button
                   type="submit"
                   className="mt-5 tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
