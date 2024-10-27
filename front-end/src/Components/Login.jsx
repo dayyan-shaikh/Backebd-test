@@ -1,7 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from 'react-hot-toast'
 
 const Login = () => {
+  const [input, setinput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const changehandler = (e) => {
+    setinput({ ...input, [e.target.name]: e.target.value });
+  };
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  const submithandler = async (e) => {
+    e.preventDefault();
+    console.log(input);
+    try {
+      const res = await axios.post("http://localhost:8000/login", input, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        setIsAuthenticated(true);
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
       <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
@@ -21,7 +62,7 @@ const Login = () => {
                 <h1 className="ml-20 text-xl font-bold leading-tight tracking-tight text-red md:text-2xl text-blue-900">
                   Sign in to your account
                 </h1>
-                <form className="space-y-4 md:space-y-6" action="#">
+                <form className="space-y-4 md:space-y-6" onSubmit={submithandler}>
                   <div>
                     <label
                       htmlFor="email"
@@ -30,10 +71,12 @@ const Login = () => {
                       Your email
                     </label>
                     <input
+                      onChange={changehandler}
+                      value={input.email}
                       type="email"
                       name="email"
                       id="email"
-                      className="bg-gray-50 border border-gray-300 text-black rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       placeholder="email"
                       required=""
                     />
@@ -46,11 +89,13 @@ const Login = () => {
                       Password
                     </label>
                     <input
+                      onChange={changehandler}
+                      value={input.password}
                       type="password"
                       name="password"
                       id="password"
                       placeholder="password"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       required=""
                     />
                   </div>
@@ -81,14 +126,11 @@ const Login = () => {
                       Forgot password?
                     </a>
                   </div>
-                  <button className="tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                  <Link to={"/"} className="ml-3">Login</Link>
-                </button>
                   <button
                     type="submit"
-                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    className="tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
                   >
-                    Sign in
+                    Login
                   </button>
                   <p className="text-sm font-light text-gray dark:text-gray text-center">
                     Don’t have an account yet?{" "}
