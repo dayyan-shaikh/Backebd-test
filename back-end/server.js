@@ -4,6 +4,7 @@ const port = 8000;
 const connectDB = require("./db/dbconnection.js");
 const User = require("./db/user.js");
 const cors = require('cors');
+const bcrypt = require('bcryptjs')
 // const { sendMail } = require("./db/sendMail.js");
 
 // Middleware for parsing JSON
@@ -26,7 +27,11 @@ app.post("/register", async (req, res) => {
             return res.status(400).json({ message: "All fields are required", success: false });
         }
 
-        const newUser = new User({ username, email, password });
+        //bcrypt hash password
+        const hash_password = await bcrypt.hash(password,10)
+
+
+        const newUser = new User({ username, email, hash_password });
         await newUser.save();
 
         res.status(201).json({ message: "Registration Successful", success: true });
@@ -46,7 +51,10 @@ app.post("/login", async (req, res) => {
         if (!user) {
             return res.status(401).json({ message: "Invalid email", success: false });
         }
-        if (user.password !== password) {
+
+        const isMatch = await bcrypt.compare(password, user.hash_password);
+
+        if (!isMatch) {
             return res.status(401).json({ message: "Invalid password", success: false });
         }
 
