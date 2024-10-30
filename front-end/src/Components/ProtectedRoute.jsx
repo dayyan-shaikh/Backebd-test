@@ -1,8 +1,9 @@
-import { Outlet,Navigate} from 'react-router-dom';
+import { Outlet, Navigate } from "react-router-dom";
 
 const ProtectedRoute = () => {
-  const user = null
-  return user ? <Outlet/> : <Navigate to='/'/>
-}
+  let user = null;
+  user = localStorage.getItem("user");
+  return user ? <Outlet /> : <Navigate to="/" />;
+};
 
 export default ProtectedRoute;

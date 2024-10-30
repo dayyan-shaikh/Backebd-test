@@ -1,10 +1,9 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-
 
 const Login = () => {
   const [input, setinput] = useState({
@@ -35,11 +34,15 @@ const Login = () => {
         },
         withCredentials: true,
       });
+      console.log(res.data);
+
       if (res.data.success) {
         setIsAuthenticated(true);
         toast.success(res.data.message);
       }
+      localStorage.setItem("user", input);
     } catch (error) {
+      localStorage.removeItem("user");
       console.log(error);
       toast.error(error.response.data.message);
     }
@@ -53,24 +56,27 @@ const Login = () => {
 
   return (
     <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-      <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
+      <div className="flex justify-center flex-1 max-w-screen-xl bg-white border shadow sm:rounded-lg">
         {/* <!-- Left: Image --> */}
-        <div className="w-full lg:w-1/2 hidden lg:flex items-center justify-center">
+        <div className="items-center justify-center hidden w-full lg:w-1/2 lg:flex">
           <img
             src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-            className="w-4/5 h-auto object-cover"
+            className="object-cover w-4/5 h-auto"
             alt="Phone image"
           />
         </div>
         {/* <!-- Right: Login Form --> */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center">
+        <div className="flex items-center justify-center w-full lg:w-1/2">
           <section className="w-full p-8">
             <div className="bg-white rounded-lg shadow dark:border sm:max-w-md lg:w-full xl:p-0">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="ml-20 text-xl font-bold leading-tight tracking-tight text-red md:text-2xl text-blue-900">
+                <h1 className="ml-20 text-xl font-bold leading-tight tracking-tight text-blue-900 text-red md:text-2xl">
                   Sign in to your account
                 </h1>
-                <form className="space-y-4 md:space-y-6" onSubmit={submithandler}>
+                <form
+                  className="space-y-4 md:space-y-6"
+                  onSubmit={submithandler}
+                >
                   <div>
                     <label
                       htmlFor="email"
@@ -97,22 +103,22 @@ const Login = () => {
                       Password
                     </label>
                     <div className="relative">
-                  <input
-                    onChange={changehandler}
-                    name="password"
-                    value={input.password}
-                    className="w-full px-5 py-3 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                  />
-                  <button
-                    type="button"
-                    onClick={togglePasswordVisibility}
-                    className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-                  >
-                    {showPassword ? <FiEyeOff /> : <FiEye />}
-                  </button>
-                </div>
+                      <input
+                        onChange={changehandler}
+                        name="password"
+                        value={input.password}
+                        className="w-full px-5 py-3 text-sm font-medium placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-gray-400 focus:bg-white"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute text-gray-500 right-3 top-3 hover:text-gray-700"
+                      >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                      </button>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-start">
@@ -143,11 +149,11 @@ const Login = () => {
                   </div>
                   <button
                     type="submit"
-                    className="tracking-wide font-semibold bg-blue-900 text-gray-100 w-full py-3 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                    className="flex items-center justify-center w-full py-3 font-semibold tracking-wide text-gray-100 transition-all duration-300 ease-in-out bg-blue-900 rounded-lg hover:bg-indigo-700 focus:shadow-outline focus:outline-none"
                   >
                     Login
                   </button>
-                  <p className="text-sm font-light text-gray dark:text-gray text-center">
+                  <p className="text-sm font-light text-center text-gray dark:text-gray">
                     Don’t have an account yet?{" "}
                     <Link
                       to="/signup"
