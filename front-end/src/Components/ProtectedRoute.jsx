@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet,Navigate} from 'react-router-dom';
 
-const ProtectedRoute = ({ Component }) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const login = localStorage.getItem('login');
-    if (!login) {
-      navigate('/');
-    }
-  }, [navigate]); // Add dependencies to useEffect for better optimization
-
-  return <Component />;
-};
+const ProtectedRoute = () => {
+  const user = null
+  return user ? <Outlet/> : <Navigate to='/'/>
+}
 
 export default ProtectedRoute;
